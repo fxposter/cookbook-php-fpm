@@ -108,6 +108,7 @@ template node['php-fpm']['conf_file'] do
   mode 00644
   owner "root"
   group "root"
+  notifies :restart, "service[php-fpm]"
 end
 
 node['php-fpm']['pools'].each do |pool|
@@ -120,5 +121,5 @@ service "php-fpm" do
   provider service_provider if service_provider
   service_name php_fpm_service_name
   supports :start => true, :stop => true, :restart => true, :reload => true
-  action [ :enable, :restart ]
+  action [ :enable, :start ]
 end
